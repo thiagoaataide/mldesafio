@@ -1,0 +1,11 @@
+services:
+  app:
+    image: 'mercadolivreapp:lasted'
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: app-mercadolivre
+    ports:
+      - "8088:8088"
+    expose:
+      - "8088"
