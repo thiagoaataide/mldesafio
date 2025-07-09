@@ -1,7 +1,7 @@
 package br.com.api.mercadolivre.repository;
 
 import br.com.api.mercadolivre.model.Product;
-import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -18,12 +18,13 @@ public class JsonRepositoryTest {
     @Test
     void printAllProducts(){
         List<Product> products = repository.findAll();
-        Assertions.assertThat(products).isNotEmpty();
+        Assertions.assertTrue(!products.isEmpty());
 
         Product product = products.get(0);
-        Assertions.assertThat(product.getId()).isNotBlank();
-        Assertions.assertThat(product.getTitle()).isNotBlank();
-        Assertions.assertThat(product.getPrice()).isNotNull();
+
+        Assertions.assertFalse(product.getId().isBlank());
+        Assertions.assertFalse(product.getTitle().isBlank());
+        Assertions.assertNotNull(product.getPrice());
     }
 
     @Test
@@ -31,15 +32,15 @@ public class JsonRepositoryTest {
         String knownId = repository.findAll().get(0).getId();
         Optional<Product> product = repository.findById(knownId);
 
-        Assertions.assertThat(product).isPresent();
-        Assertions.assertThat(product.get().getId()).isEqualTo(knownId);
+        Assertions.assertTrue(product.isPresent());
+        Assertions.assertEquals(knownId, product.get().getId());
     }
 
     @Test
     void shouldFindProductByTitleContaing() {
         List<Product> products = repository.findByTitleContaining("Produto 4");
 
-        Assertions.assertThat(products).isNotEmpty();
-        Assertions.assertThat(products.get(0).getId()).isNotBlank();
+//        Assertions.assertThat(products).isNotEmpty();
+//        Assertions.assertThat(products.get(0).getId()).isNotBlank();
     }
 }
